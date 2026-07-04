@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #edf9ed 0%, #ffffff 100%);
+    color: #0f3f20;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body > * {
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    color: #124e26;
+}
+
+body {
+    padding: 24px;
+}
+
+section {
+    background: #ffffff;
+    border: 1px solid #d5e8d7;
+    border-left: 6px solid #39a14a;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(29, 88, 42, 0.08);
+    margin-bottom: 24px;
+    padding: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    max-width: 380px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #c8e0cb;
+    font-size: 16px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #4bbf6a;
+    box-shadow: 0 0 0 4px rgba(75, 191, 106, 0.14);
+}
+
+button {
+    cursor: pointer;
+    background: #239c4d;
+    color: #ffffff;
+    border: none;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #1e8b44;
+}
+
+pre {
+    background: #f5fff6;
+    color: #0e3720;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #d6f0da;
+    overflow-x: auto;
+}
+
+#mensaje {
+    margin-top: 12px;
+    color: #106f34;
+    font-weight: 700;
+}
+
+#resultado-saldo {
+    white-space: pre-wrap;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 16px;
+    }
+
+    section {
+        padding: 18px;
+    }
+}

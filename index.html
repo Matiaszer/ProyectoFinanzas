@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa de Finanzas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Programa de Finanzas</h1>
+    <p>Bienvenido al programa de finanzas. Usa este formulario para registrar gastos e ingresos.</p>
+
+    <section>
+        <h2>Agregar gasto</h2>
+        <label for="gasto-monto">Monto del gasto</label>
+        <input id="gasto-monto" type="number" step="0.01" placeholder="Ej. 1500.50">
+        <label for="gasto-descripcion">Descripción</label>
+        <input id="gasto-descripcion" type="text" placeholder="Ej. Compras supermercado">
+        <button id="gasto-btn">Agregar gasto</button>
+    </section>
+
+    <section>
+        <h2>Agregar ingreso</h2>
+        <label for="ingreso-monto">Monto del ingreso</label>
+        <input id="ingreso-monto" type="number" step="0.01" placeholder="Ej. 2500.00">
+        <label for="ingreso-descripcion">Descripción</label>
+        <input id="ingreso-descripcion" type="text" placeholder="Ej. Sueldo">
+        <button id="ingreso-btn">Agregar ingreso</button>
+    </section>
+
+    <section>
+        <h2>Configuración de moneda</h2>
+        <label for="moneda-seleccion">Selecciona moneda</label>
+        <select id="moneda-seleccion">
+            <option value="CLP">Peso local (CLP)</option>
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+            <option value="GBP">Libra esterlina (GBP)</option>
+            <option value="JPY">Yen japonés (JPY)</option>
+        </select>
+        <button id="moneda-btn">Guardar moneda</button>
+    </section>
+
+    <section>
+        <h2>Saldo actual</h2>
+        <div id="resultado-saldo">Cargando...</div>
+        <pre id="lista-gastos"></pre>
+        <pre id="lista-ingresos"></pre>
+    </section>
+
+    <div id="mensaje"></div>
+
+    <script>
+        async function apiPost(url, body) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            return response.json();
+        }
+
+        async function actualizarSaldo() {
+            const response = await fetch('/api/saldo');
+            const data = await response.json();
+            document.getElementById('resultado-saldo').textContent =
+                `Saldo: ${data.saldo} (${data.moneda})
+Total ingresos: ${data.total_ingresos}
+Total gastos: ${data.total_gastos}`;
+            document.getElementById('lista-gastos').textContent = `Gastos:
+${JSON.stringify(data.gastos, null, 2)}`;
+            document.getElementById('lista-ingresos').textContent = `Ingresos:
+${JSON.stringify(data.ingresos, null, 2)}`;
+        }
+
+        document.getElementById('gasto-btn').addEventListener('click', async () => {
+            const monto = document.getElementById('gasto-monto').value;
+            const descripcion = document.getElementById('gasto-descripcion').value;
+            const data = await apiPost('/api/gasto', { monto, descripcion });
+            document.getElementById('mensaje').textContent = data.message || data.error;
+            actualizarSaldo();
+        });
+
+        document.getElementById('ingreso-btn').addEventListener('click', async () => {
+            const monto = document.getElementById('ingreso-monto').value;
+            const descripcion = document.getElementById('ingreso-descripcion').value;
+            const data = await apiPost('/api/ingreso', { monto, descripcion });
+            document.getElementById('mensaje').textContent = data.message || data.error;
+            actualizarSaldo();
+        });
+
+        document.getElementById('moneda-btn').addEventListener('click', async () => {
+            const moneda = document.getElementById('moneda-seleccion').value;
+            const data = await apiPost('/api/config/moneda', { moneda });
+            document.getElementById('mensaje').textContent = data.message || data.error;
+            actualizarSaldo();
+        });
+
+        actualizarSaldo();
+    </script>
+</body>
+</html>
