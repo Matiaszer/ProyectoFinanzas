@@ -8,95 +8,374 @@
 </head>
 <body>
     <h1>Programa de Finanzas</h1>
-    <p>Bienvenido al programa de finanzas. Usa este formulario para registrar gastos e ingresos.</p>
+    <p>Bienvenido al programa de finanzas. Registra tu usuario e inicia sesión para guardar tus datos.</p>
 
-    <section>
-        <h2>Agregar gasto</h2>
-        <label for="gasto-monto">Monto del gasto</label>
-        <input id="gasto-monto" type="number" step="0.01" placeholder="Ej. 1500.50">
-        <label for="gasto-descripcion">Descripción</label>
-        <input id="gasto-descripcion" type="text" placeholder="Ej. Compras supermercado">
-        <button id="gasto-btn">Agregar gasto</button>
+    <section id="auth-panel" class="auth-card">
+        <div class="auth-grid">
+            <div class="auth-box">
+                <h2>Registro</h2>
+                <form id="register-form">
+                    <label for="register-user">Usuario</label>
+                    <input id="register-user" type="text" placeholder="Ej. jose123" required>
+                    <label for="register-pass">Contraseña</label>
+                    <input id="register-pass" type="password" placeholder="Mínimo 4 caracteres" required>
+                    <button type="submit">Registrarse</button>
+                </form>
+            </div>
+            <div class="auth-box">
+                <h2>Iniciar sesión</h2>
+                <form id="login-form">
+                    <label for="login-user">Usuario</label>
+                    <input id="login-user" type="text" placeholder="Ej. jose123" required>
+                    <label for="login-pass">Contraseña</label>
+                    <input id="login-pass" type="password" placeholder="Tu contraseña" required>
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+        <div id="auth-message" class="auth-message"></div>
     </section>
 
-    <section>
-        <h2>Agregar ingreso</h2>
-        <label for="ingreso-monto">Monto del ingreso</label>
-        <input id="ingreso-monto" type="number" step="0.01" placeholder="Ej. 2500.00">
-        <label for="ingreso-descripcion">Descripción</label>
-        <input id="ingreso-descripcion" type="text" placeholder="Ej. Sueldo">
-        <button id="ingreso-btn">Agregar ingreso</button>
-    </section>
+    <section id="app" hidden>
+        <div class="topbar">
+            <span id="user-badge" class="user-badge"></span>
+            <button id="logout-btn" class="logout-btn">Cerrar sesión</button>
+        </div>
 
-    <section>
-        <h2>Configuración de moneda</h2>
-        <label for="moneda-seleccion">Selecciona moneda</label>
-        <select id="moneda-seleccion">
-            <option value="CLP">Peso local (CLP)</option>
-            <option value="USD">Dólar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
-            <option value="GBP">Libra esterlina (GBP)</option>
-            <option value="JPY">Yen japonés (JPY)</option>
-        </select>
-        <button id="moneda-btn">Guardar moneda</button>
-    </section>
+        <section id="saldo-card" class="top-section">
+            <div class="saldo-center">
+                <h2>Saldo</h2>
+                <div id="resultado-saldo">Cargando...</div>
+            </div>
+            <div class="objetivo-card">
+                <h2>Objetivo de ahorro</h2>
+                <div id="resultado-objetivo" class="objetivo-info">
+                    <div id="objetivo-imagen-container" class="objetivo-imagen-container"></div>
+                    <div class="objetivo-display">$0</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progress-percent">0%</span> de objetivo
+                        <span id="falta-text" class="falta-text"> · Faltan $0</span>
+                    </div>
+                </div>
+                <div id="objetivo-form" class="objetivo-form">
+                    <label for="objetivo-nombre">Nombre del objetivo</label>
+                    <input id="objetivo-nombre" type="text" placeholder="Ej. PlayStation 4">
+                    <label for="objetivo-monto">Monto del objetivo</label>
+                    <input id="objetivo-monto" type="number" step="0.01" placeholder="Ej. 5000.00">
+                    <label for="objetivo-imagen">Imagen del objetivo</label>
+                    <input id="objetivo-imagen" type="file" accept="image/*">
+                    <button id="objetivo-btn">Guardar objetivo</button>
+                </div>
+            </div>
+        </section>
 
-    <section>
-        <h2>Saldo actual</h2>
-        <div id="resultado-saldo">Cargando...</div>
-        <pre id="lista-gastos"></pre>
-        <pre id="lista-ingresos"></pre>
+        <section id="movimientos-section" class="movimientos-section">
+            <div class="columns">
+                <div class="column">
+                    <h3>Ingresos</h3>
+                    <div id="lista-ingresos" class="lista-dashboard"></div>
+                </div>
+                <div class="column">
+                    <h3>Egresos</h3>
+                    <div id="lista-gastos" class="lista-dashboard"></div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Agregar gasto</h2>
+            <label for="gasto-monto">Monto del gasto</label>
+            <input id="gasto-monto" type="number" step="0.01" placeholder="Ej. 1500.50">
+            <label for="gasto-descripcion">Descripción</label>
+            <input id="gasto-descripcion" type="text" placeholder="Ej. Compras supermercado">
+            <button id="gasto-btn">Agregar gasto</button>
+        </section>
+
+        <section>
+            <h2>Agregar ingreso</h2>
+            <label for="ingreso-monto">Monto del ingreso</label>
+            <input id="ingreso-monto" type="number" step="0.01" placeholder="Ej. 2500.00">
+            <label for="ingreso-descripcion">Descripción</label>
+            <input id="ingreso-descripcion" type="text" placeholder="Ej. Sueldo">
+            <button id="ingreso-btn">Agregar ingreso</button>
+        </section>
+
+        <section>
+            <h2>Configuración de moneda</h2>
+            <label for="moneda-seleccion">Selecciona moneda</label>
+            <select id="moneda-seleccion">
+                <option value="CLP">Peso local (CLP)</option>
+                <option value="USD">Dólar (USD)</option>
+                <option value="EUR">Euro (EUR)</option>
+                <option value="GBP">Libra esterlina (GBP)</option>
+                <option value="JPY">Yen japonés (JPY)</option>
+            </select>
+            <button id="moneda-btn">Guardar moneda</button>
+        </section>
     </section>
 
     <div id="mensaje"></div>
 
     <script>
-        async function apiPost(url, body) {
+        async function apiRequest(url, options = {}) {
             const response = await fetch(url, {
-                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                ...options
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.error || 'Error en la solicitud');
+            }
+            return data;
+        }
+
+        async function apiPost(url, body) {
+            return apiRequest(url, {
+                method: 'POST',
                 body: JSON.stringify(body)
             });
-            return response.json();
+        }
+
+        async function apiDelete(url) {
+            return apiRequest(url, {
+                method: 'DELETE'
+            });
+        }
+
+        function renderLista(containerId, items, tipo) {
+            const container = document.getElementById(containerId);
+            const lista = Array.isArray(items) ? items : Object.entries(items || {});
+
+            if (!lista.length) {
+                container.innerHTML = `<div class="lista-empty">No hay ${tipo}.</div>`;
+                return;
+            }
+
+            container.innerHTML = lista
+                .map((item) => {
+                    if (typeof item === 'object' && item !== null && item.descripcion) {
+                        const valor = Number(item.monto).toFixed(2);
+                        return `<div class="lista-item">
+                            <span>${item.descripcion}: $${valor}</span>
+                            <button class="delete-btn" data-id="${item.id}" data-tipo="${item.tipo}">Eliminar</button>
+                        </div>`;
+                    }
+
+                    const [descripcion, monto] = item;
+                    const valor = Number(monto).toFixed(2);
+                    return `<div class="lista-item">
+                        <span>${descripcion}: $${valor}</span>
+                    </div>`;
+                })
+                .join('');
+
+            container.querySelectorAll('.delete-btn').forEach((button) => {
+                button.addEventListener('click', async () => {
+                    const movimientoId = button.dataset.id;
+                    try {
+                        const data = await apiDelete(`/api/movimiento/${movimientoId}`);
+                        document.getElementById('mensaje').textContent = data.message || data.error;
+                        await actualizarSaldo();
+                    } catch (error) {
+                        document.getElementById('mensaje').textContent = error.message;
+                    }
+                });
+            });
+        }
+
+        function showAuth(message = '') {
+            document.getElementById('auth-panel').hidden = false;
+            document.getElementById('app').hidden = true;
+            document.getElementById('auth-message').textContent = message;
+        }
+
+        function showApp(user) {
+            document.getElementById('auth-panel').hidden = true;
+            document.getElementById('app').hidden = false;
+            document.getElementById('user-badge').textContent = `Usuario: ${user.username}`;
+            document.getElementById('mensaje').textContent = '';
         }
 
         async function actualizarSaldo() {
-            const response = await fetch('/api/saldo');
-            const data = await response.json();
-            document.getElementById('resultado-saldo').textContent =
-                `Saldo: ${data.saldo} (${data.moneda})
-Total ingresos: ${data.total_ingresos}
-Total gastos: ${data.total_gastos}`;
-            document.getElementById('lista-gastos').textContent = `Gastos:
-${JSON.stringify(data.gastos, null, 2)}`;
-            document.getElementById('lista-ingresos').textContent = `Ingresos:
-${JSON.stringify(data.ingresos, null, 2)}`;
+            try {
+                const data = await apiRequest('/api/saldo');
+                document.getElementById('resultado-saldo').textContent =
+                    `Saldo: ${data.saldo} (${data.moneda})\nTotal ingresos: ${data.total_ingresos}\nTotal gastos: ${data.total_gastos}`;
+                
+                // Mostrar objetivo con porcentaje e imagen
+                const objetivo = data.objetivo || { monto: 0, nombre: '', imagen: '', porcentaje: 0, falta: 0 };
+                const moneda = data.moneda || 'CLP';
+                
+                // Mostrar u ocultar el formulario de objetivo
+                const objetivoForm = document.getElementById('objetivo-form');
+                if (objetivo.monto > 0) {
+                    objetivoForm.style.display = 'none';
+                } else {
+                    objetivoForm.style.display = 'block';
+                }
+                
+                // Construir HTML de imagen
+                const imagenHTML = objetivo.imagen 
+                    ? `<div class="objetivo-imagen-container"><img src="data:image/png;base64,${objetivo.imagen}" alt="${objetivo.nombre}"></div>` 
+                    : '';
+                
+                // Construir HTML de nombre
+                const nombreHTML = objetivo.nombre 
+                    ? `<div class="objetivo-nombre">${objetivo.nombre}</div>` 
+                    : '';
+                
+                document.getElementById('resultado-objetivo').innerHTML = `
+                    ${nombreHTML}
+                    ${imagenHTML}
+                    <div class="objetivo-display">$${objetivo.monto.toLocaleString()}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: ${objetivo.porcentaje}%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progress-percent">${objetivo.porcentaje}%</span> de objetivo
+                        <span id="falta-text" class="falta-text"> · Faltan ${moneda} $${objetivo.falta.toLocaleString()}</span>
+                    </div>
+                `;
+                
+                // Llenar campos del formulario con valores actuales
+                document.getElementById('objetivo-nombre').value = objetivo.nombre || '';
+                document.getElementById('objetivo-monto').value = objetivo.monto || '';
+
+                const movimientos = data.movimientos || [];
+                renderLista('lista-gastos', movimientos.filter((item) => item.tipo === 'gasto'), 'gastos');
+                renderLista('lista-ingresos', movimientos.filter((item) => item.tipo === 'ingreso'), 'ingresos');
+            } catch (error) {
+                showAuth(error.message);
+            }
         }
+
+        document.getElementById('register-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const username = document.getElementById('register-user').value.trim();
+            const password = document.getElementById('register-pass').value.trim();
+            try {
+                const data = await apiPost('/api/register', { username, password });
+                showApp({ username: data.username });
+                document.getElementById('register-form').reset();
+                actualizarSaldo();
+            } catch (error) {
+                showAuth(error.message);
+            }
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const username = document.getElementById('login-user').value.trim();
+            const password = document.getElementById('login-pass').value.trim();
+            try {
+                const data = await apiPost('/api/login', { username, password });
+                showApp({ username: data.username });
+                document.getElementById('login-form').reset();
+                actualizarSaldo();
+            } catch (error) {
+                showAuth(error.message);
+            }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            try {
+                await apiPost('/api/logout', {});
+                showAuth('Sesión cerrada.');
+                document.getElementById('login-form').reset();
+                document.getElementById('register-form').reset();
+            } catch (error) {
+                showAuth(error.message);
+            }
+        });
 
         document.getElementById('gasto-btn').addEventListener('click', async () => {
             const monto = document.getElementById('gasto-monto').value;
             const descripcion = document.getElementById('gasto-descripcion').value;
-            const data = await apiPost('/api/gasto', { monto, descripcion });
-            document.getElementById('mensaje').textContent = data.message || data.error;
-            actualizarSaldo();
+            try {
+                const data = await apiPost('/api/gasto', { monto, descripcion });
+                document.getElementById('mensaje').textContent = data.message || data.error;
+                document.getElementById('gasto-monto').value = '';
+                document.getElementById('gasto-descripcion').value = '';
+                actualizarSaldo();
+            } catch (error) {
+                document.getElementById('mensaje').textContent = error.message;
+            }
         });
 
         document.getElementById('ingreso-btn').addEventListener('click', async () => {
             const monto = document.getElementById('ingreso-monto').value;
             const descripcion = document.getElementById('ingreso-descripcion').value;
-            const data = await apiPost('/api/ingreso', { monto, descripcion });
-            document.getElementById('mensaje').textContent = data.message || data.error;
-            actualizarSaldo();
+            try {
+                const data = await apiPost('/api/ingreso', { monto, descripcion });
+                document.getElementById('mensaje').textContent = data.message || data.error;
+                document.getElementById('ingreso-monto').value = '';
+                document.getElementById('ingreso-descripcion').value = '';
+                actualizarSaldo();
+            } catch (error) {
+                document.getElementById('mensaje').textContent = error.message;
+            }
         });
 
         document.getElementById('moneda-btn').addEventListener('click', async () => {
             const moneda = document.getElementById('moneda-seleccion').value;
-            const data = await apiPost('/api/config/moneda', { moneda });
-            document.getElementById('mensaje').textContent = data.message || data.error;
-            actualizarSaldo();
+            try {
+                const data = await apiPost('/api/config/moneda', { moneda });
+                document.getElementById('mensaje').textContent = data.message || data.error;
+                actualizarSaldo();
+            } catch (error) {
+                document.getElementById('mensaje').textContent = error.message;
+            }
         });
 
-        actualizarSaldo();
+        document.getElementById('objetivo-btn').addEventListener('click', async () => {
+            const objetivo = document.getElementById('objetivo-monto').value;
+            const nombre = document.getElementById('objetivo-nombre').value;
+            const imagenInput = document.getElementById('objetivo-imagen');
+            
+            if (!objetivo) {
+                document.getElementById('mensaje').textContent = 'Por favor ingresa un monto para el objetivo.';
+                return;
+            }
+            
+            try {
+                // Crear FormData para enviar archivo + datos
+                const formData = new FormData();
+                formData.append('objetivo', objetivo);
+                formData.append('nombre', nombre);
+                if (imagenInput.files.length > 0) {
+                    formData.append('imagen', imagenInput.files[0]);
+                }
+                
+                // Enviar con fetch (no con apiPost)
+                const response = await fetch('/api/config/objetivo', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                document.getElementById('mensaje').textContent = data.message || data.error;
+                document.getElementById('objetivo-monto').value = '';
+                document.getElementById('objetivo-nombre').value = '';
+                document.getElementById('objetivo-imagen').value = '';
+                actualizarSaldo();
+            } catch (error) {
+                document.getElementById('mensaje').textContent = error.message;
+            }
+        });
+
+        async function init() {
+            try {
+                const data = await apiRequest('/api/me');
+                showApp(data);
+                actualizarSaldo();
+            } catch {
+                showAuth('Inicia sesión o regístrate para comenzar.');
+            }
+        }
+
+        init();
     </script>
 </body>
 </html>
