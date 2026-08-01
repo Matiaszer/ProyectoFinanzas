@@ -448,6 +448,32 @@ def configurar_objetivo():
     })
 
 
+@app.route('/api/config/objetivo/reset', methods=['POST'])
+def resetear_objetivo():
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Debes iniciar sesión.'}), 401
+    conn = get_db()
+    conn.execute(
+    '''
+    UPDATE users
+    SET objetivo = 0,
+        objetivo_nombre = '',
+        objetivo_imagen = ''
+    WHERE id = ?
+    ''',
+    (user_id,)
+    )
+    conn.commit()
+    conn.close()
+    saldo = get_balance_for_user(user_id)
+    return jsonify({
+        'message': 'Objetivo eliminado.',
+        'objetivo': saldo['objetivo'],
+        'saldo': saldo['saldo']
+    })
+
+
 init_db()
 obtener_tasas()
 
