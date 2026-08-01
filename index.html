@@ -16,7 +16,7 @@
                 <h2>Registro</h2>
                 <form id="register-form">
                     <label for="register-user">Usuario</label>
-                    <input id="register-user" type="text" placeholder="Ej. jose123" required>
+                    <input id="register-user" type="text" placeholder="Ej. usuario123456789" required>
                     <label for="register-pass">Contraseña</label>
                     <input id="register-pass" type="password" placeholder="Mínimo 4 caracteres" required>
                     <button type="submit">Registrarse</button>
@@ -26,7 +26,7 @@
                 <h2>Iniciar sesión</h2>
                 <form id="login-form">
                     <label for="login-user">Usuario</label>
-                    <input id="login-user" type="text" placeholder="Ej. jose123" required>
+                    <input id="login-user" type="text" placeholder="Ej. usuario123456789" required>
                     <label for="login-pass">Contraseña</label>
                     <input id="login-pass" type="password" placeholder="Tu contraseña" required>
                     <button type="submit">Entrar</button>
@@ -37,10 +37,20 @@
     </section>
 
     <section id="app" hidden>
-        <div class="topbar">
-            <span id="user-badge" class="user-badge"></span>
-            <button id="logout-btn" class="logout-btn">Cerrar sesión</button>
-        </div>
+        <nav class="top-nav">
+            <div class="nav-links">
+                <button class="nav-btn" data-target="saldo-card">Saldo</button>
+                <button class="nav-btn" data-target="movimientos-section">Movimientos</button>
+                <button class="nav-btn" data-target="gasto-section">Gasto</button>
+                <button class="nav-btn" data-target="ingreso-section">Ingreso</button>
+                <button class="nav-btn" data-target="config-section">Config</button>
+                <button class="nav-btn" data-target="site-footer">Adv. legal</button>
+            </div>
+            <div class="topbar">
+                <span id="user-badge" class="user-badge"></span>
+                <button id="logout-btn" class="logout-btn">Cerrar sesión</button>
+            </div>
+        </nav>
 
         <section id="saldo-card" class="top-section">
             <div class="saldo-center">
@@ -69,7 +79,9 @@
                     <input id="objetivo-imagen" type="file" accept="image/*">
                     <button id="objetivo-btn">Guardar objetivo</button>
                 </div>
+                <button id="objetivo-reset-btn" class="reset-btn" style="display: none;">Eliminar objetivo</button>
             </div>
+
         </section>
 
         <section id="movimientos-section" class="movimientos-section">
@@ -85,7 +97,7 @@
             </div>
         </section>
 
-        <section>
+        <section id="gasto-section">
             <h2>Agregar gasto</h2>
             <label for="gasto-monto">Monto del gasto</label>
             <input id="gasto-monto" type="number" step="0.01" placeholder="Ej. 1500.50">
@@ -94,7 +106,7 @@
             <button id="gasto-btn">Agregar gasto</button>
         </section>
 
-        <section>
+        <section id="ingreso-section">
             <h2>Agregar ingreso</h2>
             <label for="ingreso-monto">Monto del ingreso</label>
             <input id="ingreso-monto" type="number" step="0.01" placeholder="Ej. 2500.00">
@@ -103,7 +115,7 @@
             <button id="ingreso-btn">Agregar ingreso</button>
         </section>
 
-        <section>
+        <section id="config-section">
             <h2>Configuración de moneda</h2>
             <label for="moneda-seleccion">Selecciona moneda</label>
             <select id="moneda-seleccion">
@@ -209,12 +221,15 @@
                 const objetivo = data.objetivo || { monto: 0, nombre: '', imagen: '', porcentaje: 0, falta: 0 };
                 const moneda = data.moneda || 'CLP';
                 
-                // Mostrar u ocultar el formulario de objetivo
+                // Mostrar u ocultar el formulario y el botón de eliminar objetivo
                 const objetivoForm = document.getElementById('objetivo-form');
+                const objetivoResetBtn = document.getElementById('objetivo-reset-btn');
                 if (objetivo.monto > 0) {
                     objetivoForm.style.display = 'none';
+                    objetivoResetBtn.style.display = 'inline-block';
                 } else {
                     objetivoForm.style.display = 'block';
+                    objetivoResetBtn.style.display = 'none';
                 }
                 
                 // Construir HTML de imagen
@@ -376,6 +391,52 @@
         }
 
         init();
+
+        document.querySelectorAll('.nav-btn').forEach((button) => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        document.getElementById('objetivo-reset-btn').addEventListener('click', async () => {
+            try {
+                const data = await apiPost('/api/config/objetivo/reset', {});
+                document.getElementById('mensaje').textContent = data.message;
+                await actualizarSaldo();
+            } catch (error) {
+                document.getElementById('mensaje').textContent = error.message;
+            }
+        });
+        
     </script>
+
+    <footer id="site-footer" class="site-footer">
+        <p>Programa de Finanzas LLC es una marca registrada de Moñoguñan &amp; Co. Todos los derechos reservados</p>
+
+        <hr>
+        <p>Programa de Finanzas es parte de Moñoguñan &amp; Co. © 2026</p>
+
+        <p>Prohibida la reproducción, distribución o modificación sin autorización previa por escrito de Calama Ninollo o Moñoguñan &amp; Co.</p>
+
+        <p>
+            Las marcas comerciales, logotipos y nombres incluidos en este producto son propiedad
+            de Moñoguñan &amp; Co. o de sus respectivos titulares, y están protegidos por las leyes
+            internacionales de derechos de autor y propiedad industrial.
+        </p>
+
+        <p>
+            El contenido se proporciona “tal cual”, sin garantía expresa o implícita de ningún tipo. <br>
+            Moñoguñan &amp; Co. y Programa de Finanzas no asumirán responsabilidad por daños directos
+            o indirectos derivados del uso de este material.
+        </p>
+
+        <p>
+            Cualquier uso indebido será investigado por Moñoguñan &amp; Co.
+        </p>
+    </footer>
 </body>
 </html>
