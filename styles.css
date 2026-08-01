@@ -154,7 +154,12 @@ button:hover {
     text-align: center;
     margin-bottom: 12px;
 }
-
+.objetivo-button {
+    width: 100%;
+    max-width: none;
+    margin-top: 12px;
+    background: #c93a3a;
+}
 .objetivo-imagen-container img {
     max-width: 100%;
     max-height: 150px;
@@ -297,15 +302,56 @@ button:hover {
     font-weight: 700;
 }
 
+.top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, #2f9c4a 0%, #39a14a 100%);
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(29, 88, 42, 0.18);
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nav-btn {
+    max-width: none;
+    width: auto;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.16);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.nav-btn:hover {
+    background: rgba(255,255,255,0.25);
+}
+
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
 }
 
 .user-badge {
+    display: inline-block;
+    min-width: 220px;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     background: #dff5e6;
     color: #0a5a23;
     border-radius: 999px;
@@ -327,6 +373,23 @@ button:hover {
 
 .delete-btn:hover {
     background: #a72b2b;
+}
+
+.site-footer {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: #f7fff8;
+    border: 1px solid #d5e8d7;
+    border-radius: 16px;
+    color: #355b3d;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.site-footer hr {
+    border: 0;
+    border-top: 1px solid #d5e8d7;
+    margin: 12px 0;
 }
 
 @media (max-width: 640px) {
